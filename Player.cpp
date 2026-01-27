@@ -1,11 +1,10 @@
 #include "Player.h"
 #include <iostream>
 
-Player::Player() : m_Sprite(m_Texture)
+Player::Player(sf::Texture& texture) : m_Sprite(texture)
 {
-	bool result = m_Texture.loadFromFile("graphics/player.png");
 	m_Sprite.setOrigin({ 25.0f, 25.0f });
-	
+
 	m_Speed		= START_SPEED;
 	m_Health	= START_HEALTH;
 	m_MaxHealth = START_HEALTH;
@@ -45,7 +44,7 @@ sf::Time Player::getLastHitTime()
 	return m_LastHit;
 }
 
-const sf::Sprite& Player::getSprite()
+sf::Sprite Player::getSprite()
 {
 	return m_Sprite;
 }
@@ -79,18 +78,18 @@ void Player::update(float delta, sf::Vector2i mousePosition)
 	{
 		m_Position.x = m_ArenaBounds.size.x - m_TileSize;
 	}
-	else if (m_Position.x > m_ArenaBounds.position.x + m_TileSize)
+	else if (m_Position.x < m_ArenaBounds.position.x + m_TileSize)
 	{
-		m_Position.x = m_ArenaBounds.size.x + m_TileSize;
+		m_Position.x = m_ArenaBounds.position.x + m_TileSize;
 	}
 
 	if (m_Position.y > m_ArenaBounds.size.y - m_TileSize)
 	{
-		m_Position.y = m_ArenaBounds.size.y + m_TileSize;
+		m_Position.y = m_ArenaBounds.size.y - m_TileSize;
 	}
-	else if (m_Position.y > m_ArenaBounds.position.y + m_TileSize)
+	else if (m_Position.y < m_ArenaBounds.position.y + m_TileSize)
 	{
-		m_Position.y = m_ArenaBounds.size.y + m_TileSize;
+		m_Position.y = m_ArenaBounds.position.y + m_TileSize;
 	}
 
 	float deg = (atan2(mousePosition.y - m_ScreenResolution.y / 2,mousePosition.x - m_ScreenResolution.x / 2)* 180) / 3.141;	

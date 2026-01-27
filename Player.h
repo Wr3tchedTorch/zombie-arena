@@ -12,7 +12,6 @@ private:
 	sf::IntRect  m_ArenaBounds;
 	
 	sf::Sprite   m_Sprite;
-	sf::Texture  m_Texture;
 
 	float m_MaxHealth;
 	float m_Health;	
@@ -27,8 +26,8 @@ private:
 
 	sf::Time m_LastHit;
 
-public:
-	Player();
+public:	
+	Player(sf::Texture& texture);
 
 	void spawn(sf::IntRect arenaBounds, sf::Vector2f screenResolution, unsigned int tileSize);
 	void resetPlayerStats();
@@ -36,7 +35,7 @@ public:
 	bool hit(sf::Time timeHit);
 	sf::Time getLastHitTime();
 
-	const sf::Sprite& getSprite();
+	sf::Sprite getSprite();
 
 	sf::FloatRect getGlobalBounds();
 	sf::Vector2f  getCenter();
