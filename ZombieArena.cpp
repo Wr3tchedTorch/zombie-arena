@@ -4,6 +4,7 @@
 #include <iostream>
 #include "SFML/Graphics.hpp"
 #include "Player.h"
+#include "ZombieArena.h"
 
 int main()
 {
@@ -177,15 +178,17 @@ int main()
 		if (currentState == State::PLAYING)
 		{
 			window.clear(sf::Color::Blue);
-			window.setView(mainView);			
+			window.setView(mainView);
 
 			sf::CircleShape testCircle(32, 32);
 			testCircle.setFillColor(sf::Color::Red);
-			
-			testCircle.setPosition(sf::Vector2f(arenaBounds.position));
+			testCircle.setPosition(sf::Vector2f(arenaBounds.position));			
 			window.draw(testCircle);
 
-			testCircle.setPosition(sf::Vector2f(arenaBounds.size));
+			sf::Vector2f endCirclePos(arenaBounds.size);
+			endCirclePos.x -= 50;
+			endCirclePos.y -= 50;
+			testCircle.setPosition(endCirclePos);
 			window.draw(testCircle);
 
 			window.draw(player.getSprite());
