@@ -35,7 +35,7 @@ int createBackground(sf::VertexArray& rVertexArray, sf::IntRect arenaBounds)
 				currentTileTextureType = rand() % TILE_TYPES;				
 			}
 			
-			sf::Vector2f textureTopLeft({0, currentTileTextureType * TILE_SIZE});
+			sf::Vector2f textureTopLeft({0.0f, static_cast<float>(currentTileTextureType * TILE_SIZE)});
 			rVertexArray[currentVertexIndex + 0].texCoords = textureTopLeft;
 			rVertexArray[currentVertexIndex + 1].texCoords = sf::Vector2f({ textureTopLeft.x + TILE_SIZE, textureTopLeft.y });
 			rVertexArray[currentVertexIndex + 2].texCoords = sf::Vector2f({ textureTopLeft.x, textureTopLeft.y + TILE_SIZE });

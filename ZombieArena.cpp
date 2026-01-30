@@ -26,6 +26,9 @@ int main()
 	sf::Vector2i mouseScreenPosition;
 	sf::IntRect arenaBounds;
 
+	sf::VertexArray backgroundVertexArray;
+	sf::Texture backgroundTexture("graphics/background_sheet.png");	
+
 	sf::Time gameTimeTotal;
 	sf::Clock clock;
 	
@@ -139,8 +142,8 @@ int main()
 			{
 				arenaBounds.size	 = { 500, 500 };
 				arenaBounds.position = { 0, 0 };
-
-				int tileSize = 50;
+			
+				int tileSize = createBackground(backgroundVertexArray, arenaBounds);
 
 				player.spawn(arenaBounds, screenResolution, tileSize);
 
@@ -177,20 +180,10 @@ int main()
 
 		if (currentState == State::PLAYING)
 		{
-			window.clear(sf::Color::Blue);
+			window.clear(sf::Color::Black);
 			window.setView(mainView);
 
-			sf::CircleShape testCircle(32, 32);
-			testCircle.setFillColor(sf::Color::Red);
-			testCircle.setPosition(sf::Vector2f(arenaBounds.position));			
-			window.draw(testCircle);
-
-			sf::Vector2f endCirclePos(arenaBounds.size);
-			endCirclePos.x -= 50;
-			endCirclePos.y -= 50;
-			testCircle.setPosition(endCirclePos);
-			window.draw(testCircle);
-
+			window.draw(backgroundVertexArray, &backgroundTexture);
 			window.draw(player.getSprite());
 		}
 		if (currentState == State::LEVELING_UP)
