@@ -5,6 +5,7 @@
 #include "SFML/Graphics.hpp"
 #include "Player.h"
 #include "ZombieArena.h"
+#include "TextureHolder.h";
 
 int main()
 {
@@ -13,7 +14,7 @@ int main()
 	State currentState = State::GAME_OVER;
 
 	sf::VideoMode vm = sf::VideoMode::getDesktopMode();
-	sf::RenderWindow window(vm, "Zombie Arena by Eric", sf::Style::Default, sf::State::Fullscreen);
+	sf::RenderWindow window(vm, "Zombie Arena by Eric", sf::Style::Default, sf::State::Windowed);
 	window.setKeyRepeatEnabled(false);
 	sf::Vector2f screenResolution(vm.size);
 
@@ -30,8 +31,8 @@ int main()
 	sf::Texture backgroundTexture("graphics/background_sheet.png");	
 
 	sf::Time gameTimeTotal;
-	sf::Clock clock;
-	
+	sf::Clock clock;	
+
 	while (window.isOpen())
 	{		
 		while (const std::optional event = window.pollEvent())
@@ -140,7 +141,7 @@ int main()
 
 			if (currentState == State::PLAYING)
 			{
-				arenaBounds.size	 = { 500, 500 };
+				arenaBounds.size	 = { 2000, 2000 };
 				arenaBounds.position = { 0, 0 };
 			
 				int tileSize = createBackground(backgroundVertexArray, arenaBounds);
@@ -160,6 +161,7 @@ int main()
 		{
 			sf::Time deltaTime = clock.restart();
 			float delta = deltaTime.asSeconds();
+			//std::cout << "FPS: " << (1 / delta) << "\n";
 
 			gameTimeTotal += deltaTime;
 			
@@ -180,7 +182,7 @@ int main()
 
 		if (currentState == State::PLAYING)
 		{
-			window.clear(sf::Color::Black);
+			window.clear(sf::Color::Blue);
 			window.setView(mainView);
 
 			window.draw(backgroundVertexArray, &backgroundTexture);
