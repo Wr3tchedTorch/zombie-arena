@@ -9,6 +9,8 @@
 
 int main()
 {
+	TextureHolder holder;
+
 	enum class State { PAUSED, LEVELING_UP, GAME_OVER, PLAYING };
 
 	State currentState = State::GAME_OVER;
@@ -29,6 +31,10 @@ int main()
 
 	sf::VertexArray backgroundVertexArray;
 	sf::Texture backgroundTexture("graphics/background_sheet.png");	
+
+	int numZombies;
+	int numZombiesAlive;
+	Zombie* zombies = nullptr;
 
 	sf::Time gameTimeTotal;
 	sf::Clock clock;	
@@ -148,6 +154,11 @@ int main()
 
 				player.spawn(arenaBounds, screenResolution, tileSize);
 
+				numZombies = 10000;
+				delete[] zombies;
+				zombies = createHorde(numZombies, arenaBounds);
+				numZombiesAlive = numZombies;
+
 				clock.restart();
 			}
 		}
@@ -172,6 +183,14 @@ int main()
 
 			sf::Vector2f playerPosition(player.getCenter());
 			mainView.setCenter(playerPosition);
+
+			for (int i = 0; i < numZombies; i++)
+			{
+				if (zombies[i].isAlive())
+				{
+					zombies[i].update(delta, playerPosition);
+				}
+			}
 		}
 
 		/*
@@ -187,6 +206,11 @@ int main()
 
 			window.draw(backgroundVertexArray, &backgroundTexture);
 			window.draw(player.getSprite());
+
+			for (int i = 0; i < numZombies; i++)
+			{
+				window.draw(zombies[i].getSprite());
+			}
 		}
 		if (currentState == State::LEVELING_UP)
 		{
@@ -200,6 +224,8 @@ int main()
 
 		window.display();
 	}
+
+	delete[] zombies;
 	
 	return 0;
 }

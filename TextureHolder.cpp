@@ -13,7 +13,7 @@ TextureHolder::TextureHolder()
 
 Texture& TextureHolder::GetTexture(string const& fileName)
 {
-	map<string, Texture> textures = m_Instance->m_Textures;
+	map<string, Texture>& textures = m_Instance->m_Textures;
 	
 	map<string, Texture>::iterator search = textures.find(fileName);
 

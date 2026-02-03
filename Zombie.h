@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "ZombieTypes.h"
 
-using sf::Vector2f, sf::Sprite, sf::FloatRect;
+using sf::Vector2f, sf::Sprite, sf::Texture, sf::FloatRect;
 
 class Zombie
 {
@@ -26,6 +26,7 @@ private:
 	bool  m_Alive;
 
 public:
+	Zombie();
 	bool hit();
 	bool isAlive() const;
 	void spawn(Vector2f position, ZombieTypes type, int seed);
