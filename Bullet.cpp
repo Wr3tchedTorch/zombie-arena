@@ -7,7 +7,7 @@ Bullet::Bullet() : m_Direction(0, 0)
 	m_MaxY = 0;
 	m_MinY = 0;
 
-	m_Shape.setSize(Vector2f(2, 2));
+	m_Shape.setSize(Vector2f(10, 10));
 }
 
 bool Bullet::isInFlight() const

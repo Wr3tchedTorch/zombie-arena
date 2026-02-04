@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "ZombieArena.h"
 #include "TextureHolder.h";
+#include "Bullet.h";
 
 int main()
 {
@@ -35,6 +36,14 @@ int main()
 	int numZombies;
 	int numZombiesAlive;
 	Zombie* zombies = nullptr;
+
+	Bullet bullets[100];
+	int currentBullet = 0;
+	int bulletsSpare  = 24;
+	int bulletsInClip = 6;
+	int clipSize   = 6;
+	float fireRate = 1;
+	sf::Time lastPressed;
 
 	sf::Time gameTimeTotal;
 	sf::Clock clock;	
@@ -69,6 +78,18 @@ int main()
 
 				if (currentState == State::PLAYING)
 				{
+					if (keyPressed->scancode == sf::Keyboard::Scancode::R)
+					{
+						if (bulletsSpare > 0)
+						{
+							bulletsInClip = std::min(bulletsSpare, clipSize);
+							bulletsSpare  = std::max(0, bulletsSpare - clipSize);
+						}
+						else
+						{
+
+						}
+					}
 				}
 			}
 		}
@@ -115,6 +136,26 @@ int main()
 			else
 			{
 				player.stopRight();
+			}
+		}
+
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+		{
+			if (gameTimeTotal.asMilliseconds() - lastPressed.asMilliseconds() > 1000 / fireRate &&
+				bulletsInClip > 0)
+			{
+				lastPressed = gameTimeTotal;
+
+				bullets[currentBullet].shoot(player.getCenter(), mouseWorldPosition);
+
+				currentBullet++;
+				if (currentBullet > 99)
+				{
+					currentBullet = 0;
+				}
+
+				lastPressed = gameTimeTotal;
+				bulletsInClip--;
 			}
 		}
 
@@ -172,7 +213,6 @@ int main()
 		{
 			sf::Time deltaTime = clock.restart();
 			float delta = deltaTime.asSeconds();
-			std::cout << "FPS: " << (1 / delta) << "\n";
 
 			gameTimeTotal += deltaTime;
 			
@@ -189,6 +229,14 @@ int main()
 				if (zombies[i].isAlive())
 				{
 					zombies[i].update(delta, playerPosition);
+				}
+			}
+
+			for (int i = 0; i < 100; i++)
+			{
+				if (bullets[i].isInFlight())
+				{
+					bullets[i].update(delta);
 				}
 			}
 		}
@@ -210,6 +258,14 @@ int main()
 			for (int i = 0; i < numZombies; i++)
 			{
 				window.draw(zombies[i].getSprite());
+			}
+
+			for (int i = 0; i < 100; i++)
+			{
+				if (bullets[i].isInFlight())
+				{
+					window.draw(bullets[i].getShape());
+				}
 			}
 		}
 		if (currentState == State::LEVELING_UP)
