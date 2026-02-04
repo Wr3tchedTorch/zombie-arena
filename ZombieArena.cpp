@@ -22,7 +22,7 @@ int main()
 
 	sf::View mainView({{0, 0}, {static_cast<float>(vm.size.x), static_cast<float>(vm.size.y)}});
 
-	sf::Texture playerTexture("graphics/player.png");
+	sf::Texture playerTexture = TextureHolder::GetTexture("graphics/player.png");
 	Player player(playerTexture);
 	
 	sf::Vector2f mouseWorldPosition;
@@ -30,7 +30,7 @@ int main()
 	sf::IntRect arenaBounds;
 
 	sf::VertexArray backgroundVertexArray;
-	sf::Texture backgroundTexture("graphics/background_sheet.png");	
+	sf::Texture backgroundTexture = TextureHolder::GetTexture("graphics/background_sheet.png");	
 
 	int numZombies;
 	int numZombiesAlive;
@@ -147,14 +147,14 @@ int main()
 
 			if (currentState == State::PLAYING)
 			{
-				arenaBounds.size	 = { 2000, 2000 };
+				arenaBounds.size	 = { 500, 500 };
 				arenaBounds.position = { 0, 0 };
 			
 				int tileSize = createBackground(backgroundVertexArray, arenaBounds);
 
 				player.spawn(arenaBounds, screenResolution, tileSize);
 
-				numZombies = 10000;
+				numZombies = 10;
 				delete[] zombies;
 				zombies = createHorde(numZombies, arenaBounds);
 				numZombiesAlive = numZombies;
@@ -172,7 +172,7 @@ int main()
 		{
 			sf::Time deltaTime = clock.restart();
 			float delta = deltaTime.asSeconds();
-			//std::cout << "FPS: " << (1 / delta) << "\n";
+			std::cout << "FPS: " << (1 / delta) << "\n";
 
 			gameTimeTotal += deltaTime;
 			
