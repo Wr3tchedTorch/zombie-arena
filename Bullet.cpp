@@ -1,4 +1,5 @@
 #include "Bullet.h"
+#include "Pickup.h"
 
 Bullet::Bullet() : m_Direction(0, 0)
 {
@@ -7,7 +8,7 @@ Bullet::Bullet() : m_Direction(0, 0)
 	m_MaxY = 0;
 	m_MinY = 0;
 
-	m_Shape.setSize(Vector2f(10, 10));
+	m_Shape.setSize(Vector2f(4, 4));
 }
 
 bool Bullet::isInFlight() const

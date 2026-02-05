@@ -1,6 +1,7 @@
 #pragma once
 
-enum ZombieTypes {
+enum ZombieTypes 
+{
 	Bloater,
 	Chaser,
 	Crawler,

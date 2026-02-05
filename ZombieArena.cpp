@@ -45,6 +45,10 @@ int main()
 	float fireRate = 1;
 	sf::Time lastPressed;
 
+	window.setMouseCursorVisible(false);
+	sf::Sprite crosshairSprite(TextureHolder::GetTexture("graphics/crosshair.png"));
+	crosshairSprite.setOrigin({ 25, 25 });
+
 	sf::Time gameTimeTotal;
 	sf::Clock clock;	
 
@@ -219,6 +223,8 @@ int main()
 			mouseScreenPosition = sf::Mouse::getPosition();
 			mouseWorldPosition  = window.mapPixelToCoords(mouseScreenPosition, mainView);
 
+			crosshairSprite.setPosition(mouseWorldPosition);
+
 			player.update(delta, mouseScreenPosition);
 
 			sf::Vector2f playerPosition(player.getCenter());
@@ -267,6 +273,8 @@ int main()
 					window.draw(bullets[i].getShape());
 				}
 			}
+
+			window.draw(crosshairSprite);
 		}
 		if (currentState == State::LEVELING_UP)
 		{
